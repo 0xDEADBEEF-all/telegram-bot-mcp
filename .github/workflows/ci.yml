@@ -12,15 +12,15 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - runner: ubuntu
+          - label: Linux
             os: Linux
-          - runner: windows-build-vm
+          - label: Windows
             os: Windows
-          - runner: macos-builder
+          - label: macOS
             os: macOS
 
     name: Build (${{ matrix.os }})
-    runs-on: [self-hosted, "${{ matrix.runner }}"]
+    runs-on: [self-hosted, "${{ matrix.label }}"]
 
     steps:
       - uses: actions/checkout@v4
