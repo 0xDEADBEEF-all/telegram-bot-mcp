@@ -1,8 +1,9 @@
 use reqwest::Client;
+use rmcp::model::{CallToolResult, Content};
+use rmcp::ErrorData as McpError;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-/// Telegram Bot API client
 #[derive(Clone)]
 pub struct BotApiClient {
     token: String,
@@ -10,10 +11,10 @@ pub struct BotApiClient {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct TelegramResponse<T> {
-    pub ok: bool,
-    pub result: Option<T>,
-    pub description: Option<String>,
+struct TelegramResponse<T> {
+    ok: bool,
+    result: Option<T>,
+    description: Option<String>,
 }
 
 impl BotApiClient {
@@ -24,8 +25,7 @@ impl BotApiClient {
         }
     }
 
-    /// Call any Telegram Bot API method
-    pub async fn call<T: serde::de::DeserializeOwned>(
+    async fn raw_call<T: serde::de::DeserializeOwned>(
         &self,
         method: &str,
         params: &impl Serialize,
@@ -48,25 +48,52 @@ impl BotApiClient {
         if body.ok {
             body.result.ok_or_else(|| "Empty result".to_string())
         } else {
-            Err(body.description.unwrap_or_else(|| "Unknown error".to_string()))
+            Err(body
+                .description
+                .unwrap_or_else(|| "Unknown error".to_string()))
         }
     }
 
-    /// Call method that returns true on success
-    pub async fn call_bool(
+    /// Call a Telegram Bot API method, return CallToolResult with pretty JSON.
+    pub async fn call_method(
         &self,
         method: &str,
         params: &impl Serialize,
-    ) -> Result<bool, String> {
-        self.call::<bool>(method, params).await
+    ) -> Result<CallToolResult, McpError> {
+        match self.raw_call::<Value>(method, params).await {
+            Ok(v) => Ok(CallToolResult::success(vec![Content::text(
+                serde_json::to_string_pretty(&v).unwrap_or_else(|_| v.to_string()),
+            )])),
+            Err(e) => Ok(CallToolResult::error(vec![Content::text(e)])),
+        }
     }
 
-    /// Call method returning raw JSON
+    /// Call a Telegram Bot API method that returns true on success.
+    pub async fn call_method_bool(
+        &self,
+        method: &str,
+        params: &impl Serialize,
+    ) -> Result<CallToolResult, McpError> {
+        match self.raw_call::<bool>(method, params).await {
+            Ok(_) => Ok(CallToolResult::success(vec![Content::text("true")])),
+            Err(e) => Ok(CallToolResult::error(vec![Content::text(e)])),
+        }
+    }
+
+    /// Call a Telegram Bot API method, return raw JSON result (for CLI mode).
     pub async fn call_raw(
         &self,
         method: &str,
         params: &impl Serialize,
     ) -> Result<Value, String> {
-        self.call::<Value>(method, params).await
+        self.raw_call::<Value>(method, params).await
+    }
+
+    /// Call a Telegram Bot API method with no parameters.
+    pub async fn call_method_no_params(
+        &self,
+        method: &str,
+    ) -> Result<CallToolResult, McpError> {
+        self.call_method(method, &serde_json::json!({})).await
     }
 }
