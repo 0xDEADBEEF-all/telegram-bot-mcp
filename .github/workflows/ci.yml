@@ -11,16 +11,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - label: Linux
-            os: Linux
-          - label: Windows
-            os: Windows
-          - label: macOS
-            os: macOS
+        os: [Linux, Windows, macOS]
 
     name: Build (${{ matrix.os }})
-    runs-on: [self-hosted, "${{ matrix.label }}"]
+    runs-on:
+      - self-hosted
+      - ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
