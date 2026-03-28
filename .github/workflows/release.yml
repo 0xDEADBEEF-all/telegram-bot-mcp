@@ -1,0 +1,103 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  # ── Lint ──────────────────────────────────────────────────────
+  check:
+    uses: ./.github/workflows/check.yml
+
+  # ── Build all platforms ──────────────────────────────────────
+  build-linux:
+    needs: check
+    uses: ./.github/workflows/build-linux.yml
+    with:
+      version: ${{ github.ref_name }}
+
+  build-windows:
+    needs: check
+    uses: ./.github/workflows/build-windows.yml
+    with:
+      version: ${{ github.ref_name }}
+
+  build-macos:
+    needs: check
+    uses: ./.github/workflows/build-macos.yml
+    with:
+      version: ${{ github.ref_name }}
+
+  # ── Create GitHub Release ────────────────────────────────────
+  release:
+    name: Create Release
+    needs: [build-linux, build-windows, build-macos]
+    runs-on: [self-hosted, Linux]
+
+    env:
+      PATH: /home/ivan/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+
+      - name: Generate checksums
+        run: |
+          cd release-assets
+          sha256sum * > checksums-sha256.txt
+          cat checksums-sha256.txt
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -n "$PREV_TAG" ]; then
+            echo "Changes since $PREV_TAG:"
+            CHANGELOG=$(git log "$PREV_TAG"..HEAD --pretty=format:"- %s" --no-merges)
+          else
+            CHANGELOG=$(git log --pretty=format:"- %s" --no-merges -20)
+          fi
+          # Write to file for multiline support
+          echo "$CHANGELOG" > /tmp/changelog.txt
+          echo "prev_tag=$PREV_TAG" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${{ github.ref_name }}"
+
+          BODY="## telegram-bot-mcp $VERSION
+
+          Telegram Bot API MCP server & CLI. Full coverage of 130 Bot API methods.
+
+          ### Binaries
+          | Platform | File |
+          |---|---|
+          | Linux x86_64 | \`telegram-bot-mcp-${VERSION}-linux-x86_64\` |
+          | Windows x86_64 | \`telegram-bot-mcp-${VERSION}-windows-x86_64.exe\` |
+          | macOS x86_64 | \`telegram-bot-mcp-${VERSION}-macos-x86_64\` |
+
+          ### Changes
+          $(cat /tmp/changelog.txt)
+
+          ### Checksums (SHA-256)
+          \`\`\`
+          $(cat release-assets/checksums-sha256.txt)
+          \`\`\`
+          "
+
+          gh release create "$VERSION" \
+            --title "$VERSION" \
+            --notes "$BODY" \
+            release-assets/*

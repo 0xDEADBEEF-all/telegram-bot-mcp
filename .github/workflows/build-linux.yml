@@ -1,7 +1,7 @@
 name: Build Linux
 
 concurrency:
-  group: build-linux-${{ github.ref }}
+  group: build-linux-${{ github.ref }}${{ inputs.version && format('-{0}', github.run_id) || '' }}
   cancel-in-progress: true
 
 on:
@@ -10,13 +10,19 @@ on:
   pull_request:
     branches: [master, main]
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      version:
+        description: "Release version (e.g. 1.0.0)"
+        required: true
+        type: string
 
 env:
   PATH: /home/ivan/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 jobs:
   build:
-    name: Build & Clippy
+    name: Build
     runs-on: [self-hosted, Linux]
 
     steps:
@@ -26,11 +32,15 @@ jobs:
       - name: Rust version
         run: rustc --version && cargo --version
 
+      - name: Set version
+        if: inputs.version
+        run: sed -i "s/^version = .*/version = \"${{ inputs.version }}\"/" Cargo.toml
+
       - name: Check source cache
         id: cache
         run: |
           HASH=$(find src -type f -name "*.rs" -exec sha256sum {} \; | sort | sha256sum | cut -c1-12)
-          CONFIG_HASH=$(cat Cargo.toml Cargo.lock 2>/dev/null | sha256sum | cut -c1-12)
+          CONFIG_HASH=$(sha256sum Cargo.toml Cargo.lock 2>/dev/null | sha256sum | cut -c1-12)
           SOURCE_HASH=$(echo "$HASH$CONFIG_HASH" | sha256sum | cut -c1-12)
 
           CACHE_DIR="$HOME/.cache/telegram-bot-mcp"
@@ -51,10 +61,6 @@ jobs:
         if: steps.cache.outputs.hit != 'true'
         run: cargo build --release
 
-      - name: Clippy
-        if: steps.cache.outputs.hit != 'true'
-        run: cargo clippy --release -- -D warnings
-
       - name: Save to cache
         if: steps.cache.outputs.hit != 'true'
         run: |
@@ -62,7 +68,25 @@ jobs:
           mkdir -p "$CACHE_DIR"
           cp target/release/telegram-bot-mcp "$CACHE_DIR/telegram-bot-mcp-${{ steps.cache.outputs.hash }}"
           ls -t "$CACHE_DIR"/telegram-bot-mcp-* | tail -n +6 | xargs -r rm -f
-          echo "Saved to cache"
+
+      - name: Prepare artifact
+        if: inputs.version
+        run: |
+          if [ "${{ steps.cache.outputs.hit }}" = "true" ]; then
+            BIN="$HOME/.cache/telegram-bot-mcp/telegram-bot-mcp-${{ steps.cache.outputs.hash }}"
+          else
+            BIN="target/release/telegram-bot-mcp"
+          fi
+          mkdir -p dist
+          cp "$BIN" "dist/telegram-bot-mcp-v${{ inputs.version }}-linux-x86_64"
+
+      - name: Upload artifact
+        if: inputs.version
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary-linux
+          path: dist/*
+          retention-days: 1
 
       - name: Verify
         run: |
@@ -72,5 +96,5 @@ jobs:
             BIN="target/release/telegram-bot-mcp"
           fi
           SIZE=$(du -h "$BIN" | cut -f1)
-          echo "Binary: $BIN ($SIZE)"
+          echo "Binary: $SIZE"
           "$BIN" list | tail -1

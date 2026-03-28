@@ -1,7 +1,7 @@
 name: Build Windows
 
 concurrency:
-  group: build-windows-${{ github.ref }}
+  group: build-windows-${{ github.ref }}${{ inputs.version && format('-{0}', github.run_id) || '' }}
   cancel-in-progress: true
 
 on:
@@ -10,10 +10,16 @@ on:
   pull_request:
     branches: [master, main]
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      version:
+        description: "Release version (e.g. 1.0.0)"
+        required: true
+        type: string
 
 jobs:
   build:
-    name: Build & Clippy
+    name: Build
     runs-on: [self-hosted, Windows]
 
     steps:
@@ -22,9 +28,13 @@ jobs:
 
       - name: Rust version
         shell: powershell
+        run: rustc --version; cargo --version
+
+      - name: Set version
+        if: inputs.version
+        shell: powershell
         run: |
-          rustc --version
-          cargo --version
+          (Get-Content Cargo.toml) -replace '^version = .*', "version = `"${{ inputs.version }}`"" | Set-Content Cargo.toml
 
       - name: Check source cache
         id: cache
@@ -54,10 +64,6 @@ jobs:
         if: steps.cache.outputs.hit != 'true'
         run: cargo build --release
 
-      - name: Clippy
-        if: steps.cache.outputs.hit != 'true'
-        run: cargo clippy --release -- -D warnings
-
       - name: Save to cache
         if: steps.cache.outputs.hit != 'true'
         shell: powershell
@@ -66,7 +72,26 @@ jobs:
           New-Item -ItemType Directory -Force -Path $cacheDir | Out-Null
           Copy-Item "target\release\telegram-bot-mcp.exe" "$cacheDir\telegram-bot-mcp-${{ steps.cache.outputs.hash }}.exe"
           Get-ChildItem "$cacheDir\telegram-bot-mcp-*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -Skip 5 | Remove-Item -Force
-          Write-Host "Saved to cache"
+
+      - name: Prepare artifact
+        if: inputs.version
+        shell: powershell
+        run: |
+          if ("${{ steps.cache.outputs.hit }}" -eq "true") {
+            $bin = "C:\builds\.cache\telegram-bot-mcp\telegram-bot-mcp-${{ steps.cache.outputs.hash }}.exe"
+          } else {
+            $bin = "target\release\telegram-bot-mcp.exe"
+          }
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          Copy-Item $bin "dist\telegram-bot-mcp-v${{ inputs.version }}-windows-x86_64.exe"
+
+      - name: Upload artifact
+        if: inputs.version
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary-windows
+          path: dist/*
+          retention-days: 1
 
       - name: Verify
         shell: powershell
@@ -77,5 +102,5 @@ jobs:
             $bin = "target\release\telegram-bot-mcp.exe"
           }
           $size = (Get-Item $bin).Length / 1MB
-          Write-Host ("Binary: {0} ({1:N1} MB)" -f $bin, $size)
+          Write-Host ("Binary: {0:N1} MB" -f $size)
           & $bin list | Select-Object -Last 1
