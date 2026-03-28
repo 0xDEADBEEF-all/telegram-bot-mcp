@@ -82,15 +82,21 @@ jobs:
           echo "$CHANGELOG" > /tmp/changelog.txt
           echo "prev_tag=$PREV_TAG" >> $GITHUB_OUTPUT
 
-      - name: Create GitHub Release
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Prepare release body
         run: |
           VERSION="${{ github.ref_name }}"
-
-          BODY="## telegram-bot-mcp $VERSION
+          CHANGELOG=$(cat /tmp/changelog.txt)
+          CHECKSUMS=$(cat release-assets/checksums-sha256.txt)
+          cat > /tmp/release-body.md <<EOF
+          ## telegram-bot-mcp ${VERSION}
 
           Telegram Bot API MCP server & CLI. Full coverage of 130 Bot API methods.
+
+          ### Install
+          \`\`\`bash
+          cargo install telegram-bot-mcp
+          \`\`\`
+          Or download a binary below.
 
           ### Binaries
           | Platform | File |
@@ -100,15 +106,20 @@ jobs:
           | macOS x86_64 | \`telegram-bot-mcp-${VERSION}-macos-x86_64\` |
 
           ### Changes
-          $(cat /tmp/changelog.txt)
+          ${CHANGELOG}
 
           ### Checksums (SHA-256)
           \`\`\`
-          $(cat release-assets/checksums-sha256.txt)
+          ${CHECKSUMS}
           \`\`\`
-          "
+          EOF
 
-          gh release create "$VERSION" \
-            --title "$VERSION" \
-            --notes "$BODY" \
-            release-assets/*
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          body_path: /tmp/release-body.md
+          files: release-assets/*
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
