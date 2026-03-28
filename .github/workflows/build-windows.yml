@@ -1,0 +1,81 @@
+name: Build Windows
+
+concurrency:
+  group: build-windows-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build & Clippy
+    runs-on: [self-hosted, Windows]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Rust version
+        shell: powershell
+        run: |
+          rustc --version
+          cargo --version
+
+      - name: Check source cache
+        id: cache
+        shell: powershell
+        run: |
+          $srcFiles = Get-ChildItem -Path "src" -Recurse -Include "*.rs" | Sort-Object FullName
+          $configFiles = @("Cargo.toml", "Cargo.lock") | Where-Object { Test-Path $_ } | Get-Item
+          $allFiles = @($srcFiles) + @($configFiles) | Where-Object { $_ }
+          $hashInput = ($allFiles | ForEach-Object { (Get-FileHash $_.FullName -Algorithm SHA256).Hash }) -join ""
+          $sourceHash = (Get-FileHash -InputStream ([IO.MemoryStream]::new([Text.Encoding]::UTF8.GetBytes($hashInput))) -Algorithm SHA256).Hash.Substring(0, 12)
+
+          $cacheDir = "C:\builds\.cache\telegram-bot-mcp"
+          $cachedExe = "$cacheDir\telegram-bot-mcp-$sourceHash.exe"
+
+          Write-Host "Source hash: $sourceHash"
+          echo "hash=$sourceHash" >> $env:GITHUB_OUTPUT
+
+          if (Test-Path $cachedExe) {
+            Write-Host "Cache HIT"
+            echo "hit=true" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "Cache MISS"
+            echo "hit=false" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Build (release)
+        if: steps.cache.outputs.hit != 'true'
+        run: cargo build --release
+
+      - name: Clippy
+        if: steps.cache.outputs.hit != 'true'
+        run: cargo clippy --release -- -D warnings
+
+      - name: Save to cache
+        if: steps.cache.outputs.hit != 'true'
+        shell: powershell
+        run: |
+          $cacheDir = "C:\builds\.cache\telegram-bot-mcp"
+          New-Item -ItemType Directory -Force -Path $cacheDir | Out-Null
+          Copy-Item "target\release\telegram-bot-mcp.exe" "$cacheDir\telegram-bot-mcp-${{ steps.cache.outputs.hash }}.exe"
+          Get-ChildItem "$cacheDir\telegram-bot-mcp-*.exe" | Sort-Object LastWriteTime -Descending | Select-Object -Skip 5 | Remove-Item -Force
+          Write-Host "Saved to cache"
+
+      - name: Verify
+        shell: powershell
+        run: |
+          if ("${{ steps.cache.outputs.hit }}" -eq "true") {
+            $bin = "C:\builds\.cache\telegram-bot-mcp\telegram-bot-mcp-${{ steps.cache.outputs.hash }}.exe"
+          } else {
+            $bin = "target\release\telegram-bot-mcp.exe"
+          }
+          $size = (Get-Item $bin).Length / 1MB
+          Write-Host ("Binary: {0} ({1:N1} MB)" -f $bin, $size)
+          & $bin list | Select-Object -Last 1
