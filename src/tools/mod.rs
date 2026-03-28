@@ -1,4 +1,5 @@
 mod bot;
+mod business;
 mod chats;
 mod editing;
 mod forum;
@@ -9,6 +10,7 @@ mod messages;
 mod other;
 mod payments;
 mod stickers;
+mod stories;
 mod updates;
 
 use rmcp::handler::server::tool::ToolRouter;
@@ -29,5 +31,7 @@ impl TelegramBotServer {
             + Self::tool_router_payments()
             + Self::tool_router_games()
             + Self::tool_router_other()
+            + Self::tool_router_business()
+            + Self::tool_router_stories()
     }
 }
