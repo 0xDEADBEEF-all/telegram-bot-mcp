@@ -6,7 +6,7 @@
 [![Build Linux](https://github.com/0xDEADBEEF-all/telegram-bot-mcp/actions/workflows/build-linux.yml/badge.svg)](https://github.com/0xDEADBEEF-all/telegram-bot-mcp/actions/workflows/build-linux.yml)
 [![Build Windows](https://github.com/0xDEADBEEF-all/telegram-bot-mcp/actions/workflows/build-windows.yml/badge.svg)](https://github.com/0xDEADBEEF-all/telegram-bot-mcp/actions/workflows/build-windows.yml)
 [![Build macOS](https://github.com/0xDEADBEEF-all/telegram-bot-mcp/actions/workflows/build-macos.yml/badge.svg)](https://github.com/0xDEADBEEF-all/telegram-bot-mcp/actions/workflows/build-macos.yml)
-[![Bot API](https://img.shields.io/badge/Telegram%20Bot%20API-130%20methods-26A5E4?logo=telegram)](https://core.telegram.org/bots/api)
+[![Bot API](https://img.shields.io/badge/Telegram%20Bot%20API-166%20methods-26A5E4?logo=telegram)](https://core.telegram.org/bots/api)
 
 MCP server and CLI for the Telegram Bot API. Full coverage of **166 methods** across all API categories.
 
@@ -14,7 +14,7 @@ Built with Rust, [rmcp](https://github.com/modelcontextprotocol/rust-sdk) 1.3, t
 
 ## Features
 
-- **130 Bot API methods** — messages, media, chats, forums, stickers, inline, payments, games, passport, gifts
+- **166 Bot API methods** — messages, media, chats, forums, stickers, inline, payments, games, passport, gifts
 - **MCP server** (stdio transport) — works with Claude Code, Claude Desktop, and any MCP client
 - **CLI mode** — direct method calls for agents and scripts without MCP support
 - **Single binary** — no runtime dependencies, fast startup
