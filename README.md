@@ -1,5 +1,13 @@
 # telegram-bot-mcp
 
+[![Crates.io](https://img.shields.io/crates/v/telegram-bot-mcp)](https://crates.io/crates/telegram-bot-mcp)
+[![Downloads](https://img.shields.io/crates/d/telegram-bot-mcp)](https://crates.io/crates/telegram-bot-mcp)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Build Linux](https://github.com/0xDEADBEEF-all/telegram-bot-mcp/actions/workflows/build-linux.yml/badge.svg)](https://github.com/0xDEADBEEF-all/telegram-bot-mcp/actions/workflows/build-linux.yml)
+[![Build Windows](https://github.com/0xDEADBEEF-all/telegram-bot-mcp/actions/workflows/build-windows.yml/badge.svg)](https://github.com/0xDEADBEEF-all/telegram-bot-mcp/actions/workflows/build-windows.yml)
+[![Build macOS](https://github.com/0xDEADBEEF-all/telegram-bot-mcp/actions/workflows/build-macos.yml/badge.svg)](https://github.com/0xDEADBEEF-all/telegram-bot-mcp/actions/workflows/build-macos.yml)
+[![Bot API](https://img.shields.io/badge/Telegram%20Bot%20API-130%20methods-26A5E4?logo=telegram)](https://core.telegram.org/bots/api)
+
 MCP server and CLI for the Telegram Bot API. Full coverage of **130 methods** across all API categories.
 
 Built with Rust, [rmcp](https://github.com/modelcontextprotocol/rust-sdk) 1.3, tokio, reqwest.
