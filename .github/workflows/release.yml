@@ -8,28 +8,39 @@ permissions:
   contents: write
 
 jobs:
+  # ── Prepare version ─────────────────────────────────────────
+  prepare:
+    runs-on: [self-hosted, Linux]
+    outputs:
+      version: ${{ steps.ver.outputs.version }}
+    steps:
+      - id: ver
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+    env:
+      PATH: /home/ivan/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
   # ── Lint ──────────────────────────────────────────────────────
   check:
     uses: ./.github/workflows/check.yml
 
   # ── Build all platforms ──────────────────────────────────────
   build-linux:
-    needs: check
+    needs: [check, prepare]
     uses: ./.github/workflows/build-linux.yml
     with:
-      version: ${{ github.ref_name }}
+      version: ${{ needs.prepare.outputs.version }}
 
   build-windows:
-    needs: check
+    needs: [check, prepare]
     uses: ./.github/workflows/build-windows.yml
     with:
-      version: ${{ github.ref_name }}
+      version: ${{ needs.prepare.outputs.version }}
 
   build-macos:
-    needs: check
+    needs: [check, prepare]
     uses: ./.github/workflows/build-macos.yml
     with:
-      version: ${{ github.ref_name }}
+      version: ${{ needs.prepare.outputs.version }}
 
   # ── Create GitHub Release ────────────────────────────────────
   release:
