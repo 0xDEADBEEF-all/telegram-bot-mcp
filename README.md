@@ -30,36 +30,50 @@ Built with Rust, [rmcp](https://github.com/modelcontextprotocol/rust-sdk) 1.3, t
 
 ## Installation
 
+### From crates.io
+
 ```bash
+cargo install telegram-bot-mcp
+```
+
+### From source
+
+```bash
+git clone https://github.com/0xDEADBEEF-all/telegram-bot-mcp.git
+cd telegram-bot-mcp
 cargo build --release
 ```
+
+## Setup
+
+1. Get a bot token from [@BotFather](https://t.me/BotFather)
+2. Add to your MCP config (`~/.mcp.json` or project `.mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "telegram-bot": {
+      "command": "telegram-bot-mcp",
+      "env": {
+        "TELEGRAM_BOT_TOKEN": "your-token-from-botfather"
+      }
+    }
+  }
+}
+```
+
+3. Restart your MCP client (Claude Code, Claude Desktop, etc.)
 
 ## Usage
 
 ### MCP Server (default)
 
 ```bash
-# via environment variable
-TELEGRAM_BOT_TOKEN=123:abc ./telegram-bot-mcp
+# Starts stdio MCP server (used automatically by MCP clients)
+TELEGRAM_BOT_TOKEN=123:abc telegram-bot-mcp
 
-# via flag
-./telegram-bot-mcp --token 123:abc
-```
-
-Add to your MCP config (`.mcp.json`):
-
-```json
-{
-  "mcpServers": {
-    "telegram-bot": {
-      "type": "stdio",
-      "command": "/path/to/telegram-bot-mcp",
-      "env": {
-        "TELEGRAM_BOT_TOKEN": "your-bot-token"
-      }
-    }
-  }
-}
+# or via flag
+telegram-bot-mcp --token 123:abc
 ```
 
 ### CLI Mode
