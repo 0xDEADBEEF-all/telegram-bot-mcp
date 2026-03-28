@@ -2,7 +2,7 @@
 name = "telegram-bot-mcp"
 version = "0.1.0"
 edition = "2021"
-description = "MCP server & CLI for Telegram Bot API — 130 methods, messages, media, chats, payments, stickers, and more"
+description = "MCP server & CLI for Telegram Bot API — 166 methods, full API coverage including business, stories, gifts, payments"
 license = "MIT"
 repository = "https://github.com/0xDEADBEEF-all/telegram-bot-mcp"
 homepage = "https://github.com/0xDEADBEEF-all/telegram-bot-mcp"

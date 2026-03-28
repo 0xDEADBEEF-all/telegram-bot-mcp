@@ -8,7 +8,7 @@
 [![Build macOS](https://github.com/0xDEADBEEF-all/telegram-bot-mcp/actions/workflows/build-macos.yml/badge.svg)](https://github.com/0xDEADBEEF-all/telegram-bot-mcp/actions/workflows/build-macos.yml)
 [![Bot API](https://img.shields.io/badge/Telegram%20Bot%20API-130%20methods-26A5E4?logo=telegram)](https://core.telegram.org/bots/api)
 
-MCP server and CLI for the Telegram Bot API. Full coverage of **130 methods** across all API categories.
+MCP server and CLI for the Telegram Bot API. Full coverage of **166 methods** across all API categories.
 
 Built with Rust, [rmcp](https://github.com/modelcontextprotocol/rust-sdk) 1.3, tokio, reqwest.
 
@@ -23,7 +23,7 @@ Built with Rust, [rmcp](https://github.com/modelcontextprotocol/rust-sdk) 1.3, t
 
 | Module | Methods | Examples |
 |---|---|---|
-| Bot info | 16 | `getMe`, `setMyCommands`, `setMyName`, `setMyDescription` |
+| Bot info | 16 | `getMe`, `setMyCommands`, `setMyName`, `setMyProfilePhoto` |
 | Updates | 4 | `getUpdates`, `setWebhook`, `deleteWebhook`, `getWebhookInfo` |
 | Messages | 10 | `sendMessage`, `forwardMessage`, `copyMessage`, `pinChatMessage` |
 | Editing | 9 | `editMessageText`, `editMessageCaption`, `deleteMessage` |
@@ -34,7 +34,9 @@ Built with Rust, [rmcp](https://github.com/modelcontextprotocol/rust-sdk) 1.3, t
 | Inline | 4 | `answerCallbackQuery`, `answerInlineQuery` |
 | Payments | 7 | `sendInvoice`, `createInvoiceLink`, `getStarTransactions` |
 | Games | 3 | `sendGame`, `setGameScore`, `getGameHighScores` |
-| Other | 7 | `getFile`, `getUserProfilePhotos`, `sendGift`, `getAvailableGifts` |
+| Business | 11 | `readBusinessMessage`, `setBusinessAccountName`, `transferBusinessAccountStars` |
+| Stories | 4 | `postStory`, `editStory`, `deleteStory`, `repostStory` |
+| Other | 28 | `sendGift`, `verifyUser`, `sendChecklist`, `getUserGifts`, `getFile` |
 
 ## Installation
 
@@ -123,7 +125,9 @@ src/
     ├── inline.rs    # Inline & callbacks (4 methods)
     ├── payments.rs  # Invoices & Stars (7 methods)
     ├── games.rs     # Games (3 methods)
-    └── other.rs     # Passport, gifts, files (7 methods)
+    ├── business.rs  # Business accounts (11 methods)
+    ├── stories.rs   # Stories (4 methods)
+    └── other.rs     # Gifts, verification, passport, etc. (28 methods)
 ```
 
 ## License
