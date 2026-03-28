@@ -262,132 +262,248 @@ impl TelegramBotServer {
     }
 
     #[tool(description = "Get a list of administrators in a chat")]
-    async fn get_chat_administrators(&self, params: Parameters<ChatIdParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method("getChatAdministrators", &params.0).await
+    async fn get_chat_administrators(
+        &self,
+        params: Parameters<ChatIdParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method("getChatAdministrators", &params.0)
+            .await
     }
 
     #[tool(description = "Get the number of members in a chat")]
-    async fn get_chat_member_count(&self, params: Parameters<ChatIdParams>) -> Result<CallToolResult, McpError> {
+    async fn get_chat_member_count(
+        &self,
+        params: Parameters<ChatIdParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("getChatMemberCount", &params.0).await
     }
 
     #[tool(description = "Get information about a member of a chat")]
-    async fn get_chat_member(&self, params: Parameters<GetChatMemberParams>) -> Result<CallToolResult, McpError> {
+    async fn get_chat_member(
+        &self,
+        params: Parameters<GetChatMemberParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("getChatMember", &params.0).await
     }
 
     #[tool(description = "Ban a user in a group/supergroup/channel")]
-    async fn ban_chat_member(&self, params: Parameters<BanChatMemberParams>) -> Result<CallToolResult, McpError> {
+    async fn ban_chat_member(
+        &self,
+        params: Parameters<BanChatMemberParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method_bool("banChatMember", &params.0).await
     }
 
     #[tool(description = "Unban a previously banned user")]
-    async fn unban_chat_member(&self, params: Parameters<UnbanChatMemberParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("unbanChatMember", &params.0).await
+    async fn unban_chat_member(
+        &self,
+        params: Parameters<UnbanChatMemberParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("unbanChatMember", &params.0)
+            .await
     }
 
     #[tool(description = "Restrict a user in a supergroup")]
-    async fn restrict_chat_member(&self, params: Parameters<RestrictChatMemberParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("restrictChatMember", &params.0).await
+    async fn restrict_chat_member(
+        &self,
+        params: Parameters<RestrictChatMemberParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("restrictChatMember", &params.0)
+            .await
     }
 
     #[tool(description = "Promote or demote a user in a supergroup/channel")]
-    async fn promote_chat_member(&self, params: Parameters<PromoteChatMemberParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("promoteChatMember", &params.0).await
+    async fn promote_chat_member(
+        &self,
+        params: Parameters<PromoteChatMemberParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("promoteChatMember", &params.0)
+            .await
     }
 
     #[tool(description = "Set a custom title for an administrator")]
-    async fn set_chat_administrator_custom_title(&self, params: Parameters<SetChatAdminTitleParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("setChatAdministratorCustomTitle", &params.0).await
+    async fn set_chat_administrator_custom_title(
+        &self,
+        params: Parameters<SetChatAdminTitleParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("setChatAdministratorCustomTitle", &params.0)
+            .await
     }
 
     #[tool(description = "Ban a channel chat in a supergroup/channel")]
-    async fn ban_chat_sender_chat(&self, params: Parameters<BanChatSenderChatParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("banChatSenderChat", &params.0).await
+    async fn ban_chat_sender_chat(
+        &self,
+        params: Parameters<BanChatSenderChatParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("banChatSenderChat", &params.0)
+            .await
     }
 
     #[tool(description = "Unban a previously banned channel chat")]
-    async fn unban_chat_sender_chat(&self, params: Parameters<BanChatSenderChatParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("unbanChatSenderChat", &params.0).await
+    async fn unban_chat_sender_chat(
+        &self,
+        params: Parameters<BanChatSenderChatParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("unbanChatSenderChat", &params.0)
+            .await
     }
 
     #[tool(description = "Set default chat permissions for all members")]
-    async fn set_chat_permissions(&self, params: Parameters<SetChatPermissionsParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("setChatPermissions", &params.0).await
+    async fn set_chat_permissions(
+        &self,
+        params: Parameters<SetChatPermissionsParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("setChatPermissions", &params.0)
+            .await
     }
 
     #[tool(description = "Generate a new primary invite link (old link is revoked)")]
-    async fn export_chat_invite_link(&self, params: Parameters<ChatIdParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method("exportChatInviteLink", &params.0).await
+    async fn export_chat_invite_link(
+        &self,
+        params: Parameters<ChatIdParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method("exportChatInviteLink", &params.0)
+            .await
     }
 
     #[tool(description = "Create an additional invite link for a chat")]
-    async fn create_chat_invite_link(&self, params: Parameters<CreateChatInviteLinkParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method("createChatInviteLink", &params.0).await
+    async fn create_chat_invite_link(
+        &self,
+        params: Parameters<CreateChatInviteLinkParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method("createChatInviteLink", &params.0)
+            .await
     }
 
     #[tool(description = "Edit an existing invite link")]
-    async fn edit_chat_invite_link(&self, params: Parameters<EditChatInviteLinkParams>) -> Result<CallToolResult, McpError> {
+    async fn edit_chat_invite_link(
+        &self,
+        params: Parameters<EditChatInviteLinkParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("editChatInviteLink", &params.0).await
     }
 
     #[tool(description = "Revoke an invite link")]
-    async fn revoke_chat_invite_link(&self, params: Parameters<RevokeChatInviteLinkParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method("revokeChatInviteLink", &params.0).await
+    async fn revoke_chat_invite_link(
+        &self,
+        params: Parameters<RevokeChatInviteLinkParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method("revokeChatInviteLink", &params.0)
+            .await
     }
 
     #[tool(description = "Create a subscription invite link for a channel")]
-    async fn create_chat_subscription_invite_link(&self, params: Parameters<CreateChatSubscriptionInviteLinkParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method("createChatSubscriptionInviteLink", &params.0).await
+    async fn create_chat_subscription_invite_link(
+        &self,
+        params: Parameters<CreateChatSubscriptionInviteLinkParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method("createChatSubscriptionInviteLink", &params.0)
+            .await
     }
 
     #[tool(description = "Edit a subscription invite link")]
-    async fn edit_chat_subscription_invite_link(&self, params: Parameters<EditChatSubscriptionInviteLinkParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method("editChatSubscriptionInviteLink", &params.0).await
+    async fn edit_chat_subscription_invite_link(
+        &self,
+        params: Parameters<EditChatSubscriptionInviteLinkParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method("editChatSubscriptionInviteLink", &params.0)
+            .await
     }
 
     #[tool(description = "Approve a chat join request")]
-    async fn approve_chat_join_request(&self, params: Parameters<ChatJoinRequestParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("approveChatJoinRequest", &params.0).await
+    async fn approve_chat_join_request(
+        &self,
+        params: Parameters<ChatJoinRequestParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("approveChatJoinRequest", &params.0)
+            .await
     }
 
     #[tool(description = "Decline a chat join request")]
-    async fn decline_chat_join_request(&self, params: Parameters<ChatJoinRequestParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("declineChatJoinRequest", &params.0).await
+    async fn decline_chat_join_request(
+        &self,
+        params: Parameters<ChatJoinRequestParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("declineChatJoinRequest", &params.0)
+            .await
     }
 
     #[tool(description = "Set a new chat photo")]
-    async fn set_chat_photo(&self, params: Parameters<SetChatPhotoParams>) -> Result<CallToolResult, McpError> {
+    async fn set_chat_photo(
+        &self,
+        params: Parameters<SetChatPhotoParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method_bool("setChatPhoto", &params.0).await
     }
 
     #[tool(description = "Delete a chat photo")]
-    async fn delete_chat_photo(&self, params: Parameters<ChatIdParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("deleteChatPhoto", &params.0).await
+    async fn delete_chat_photo(
+        &self,
+        params: Parameters<ChatIdParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("deleteChatPhoto", &params.0)
+            .await
     }
 
     #[tool(description = "Set a new chat title")]
-    async fn set_chat_title(&self, params: Parameters<SetChatTitleParams>) -> Result<CallToolResult, McpError> {
+    async fn set_chat_title(
+        &self,
+        params: Parameters<SetChatTitleParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method_bool("setChatTitle", &params.0).await
     }
 
     #[tool(description = "Set the chat description")]
-    async fn set_chat_description(&self, params: Parameters<SetChatDescriptionParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("setChatDescription", &params.0).await
+    async fn set_chat_description(
+        &self,
+        params: Parameters<SetChatDescriptionParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("setChatDescription", &params.0)
+            .await
     }
 
     #[tool(description = "Leave a group, supergroup, or channel")]
-    async fn leave_chat(&self, params: Parameters<ChatIdParams>) -> Result<CallToolResult, McpError> {
+    async fn leave_chat(
+        &self,
+        params: Parameters<ChatIdParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method_bool("leaveChat", &params.0).await
     }
 
     #[tool(description = "Set a group sticker set")]
-    async fn set_chat_sticker_set(&self, params: Parameters<SetChatStickerSetParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("setChatStickerSet", &params.0).await
+    async fn set_chat_sticker_set(
+        &self,
+        params: Parameters<SetChatStickerSetParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("setChatStickerSet", &params.0)
+            .await
     }
 
     #[tool(description = "Delete a group sticker set")]
-    async fn delete_chat_sticker_set(&self, params: Parameters<ChatIdParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("deleteChatStickerSet", &params.0).await
+    async fn delete_chat_sticker_set(
+        &self,
+        params: Parameters<ChatIdParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("deleteChatStickerSet", &params.0)
+            .await
     }
 }

@@ -66,28 +66,49 @@ pub struct SendGiftParams {
 #[tool_router(router = tool_router_other, vis = "pub")]
 impl TelegramBotServer {
     #[tool(description = "Inform Telegram Passport about errors in user-submitted data")]
-    async fn set_passport_data_errors(&self, params: Parameters<SetPassportDataErrorsParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("setPassportDataErrors", &params.0).await
+    async fn set_passport_data_errors(
+        &self,
+        params: Parameters<SetPassportDataErrorsParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("setPassportDataErrors", &params.0)
+            .await
     }
 
     #[tool(description = "Get a list of profile pictures of a user")]
-    async fn get_user_profile_photos(&self, params: Parameters<GetUserProfilePhotosParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method("getUserProfilePhotos", &params.0).await
+    async fn get_user_profile_photos(
+        &self,
+        params: Parameters<GetUserProfilePhotosParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method("getUserProfilePhotos", &params.0)
+            .await
     }
 
     #[tool(description = "Get basic info about a file and prepare it for downloading")]
-    async fn get_file(&self, params: Parameters<GetFileParams>) -> Result<CallToolResult, McpError> {
+    async fn get_file(
+        &self,
+        params: Parameters<GetFileParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("getFile", &params.0).await
     }
 
     #[tool(description = "Get the list of boosts added to a chat by a user")]
-    async fn get_user_chat_boosts(&self, params: Parameters<GetUserChatBoostsParams>) -> Result<CallToolResult, McpError> {
+    async fn get_user_chat_boosts(
+        &self,
+        params: Parameters<GetUserChatBoostsParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("getUserChatBoosts", &params.0).await
     }
 
     #[tool(description = "Get information about a business connection")]
-    async fn get_business_connection(&self, params: Parameters<GetBusinessConnectionParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method("getBusinessConnection", &params.0).await
+    async fn get_business_connection(
+        &self,
+        params: Parameters<GetBusinessConnectionParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method("getBusinessConnection", &params.0)
+            .await
     }
 
     #[tool(description = "Get the list of gifts available for sending")]
@@ -96,7 +117,10 @@ impl TelegramBotServer {
     }
 
     #[tool(description = "Send a gift to a user using Telegram Stars")]
-    async fn send_gift(&self, params: Parameters<SendGiftParams>) -> Result<CallToolResult, McpError> {
+    async fn send_gift(
+        &self,
+        params: Parameters<SendGiftParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method_bool("sendGift", &params.0).await
     }
 }

@@ -422,72 +422,116 @@ pub struct SendDiceParams {
 #[tool_router(router = tool_router_media, vis = "pub")]
 impl TelegramBotServer {
     #[tool(description = "Send a photo to a chat")]
-    async fn send_photo(&self, params: Parameters<SendPhotoParams>) -> Result<CallToolResult, McpError> {
+    async fn send_photo(
+        &self,
+        params: Parameters<SendPhotoParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendPhoto", &params.0).await
     }
 
     #[tool(description = "Send an audio file (mp3, etc.)")]
-    async fn send_audio(&self, params: Parameters<SendAudioParams>) -> Result<CallToolResult, McpError> {
+    async fn send_audio(
+        &self,
+        params: Parameters<SendAudioParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendAudio", &params.0).await
     }
 
     #[tool(description = "Send a general file/document")]
-    async fn send_document(&self, params: Parameters<SendDocumentParams>) -> Result<CallToolResult, McpError> {
+    async fn send_document(
+        &self,
+        params: Parameters<SendDocumentParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendDocument", &params.0).await
     }
 
     #[tool(description = "Send a video file")]
-    async fn send_video(&self, params: Parameters<SendVideoParams>) -> Result<CallToolResult, McpError> {
+    async fn send_video(
+        &self,
+        params: Parameters<SendVideoParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendVideo", &params.0).await
     }
 
     #[tool(description = "Send an animation (GIF or MPEG4 without sound)")]
-    async fn send_animation(&self, params: Parameters<SendAnimationParams>) -> Result<CallToolResult, McpError> {
+    async fn send_animation(
+        &self,
+        params: Parameters<SendAnimationParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendAnimation", &params.0).await
     }
 
     #[tool(description = "Send a voice message (OGG encoded with OPUS)")]
-    async fn send_voice(&self, params: Parameters<SendVoiceParams>) -> Result<CallToolResult, McpError> {
+    async fn send_voice(
+        &self,
+        params: Parameters<SendVoiceParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendVoice", &params.0).await
     }
 
     #[tool(description = "Send a video note (rounded square MPEG4 video, up to 1 min)")]
-    async fn send_video_note(&self, params: Parameters<SendVideoNoteParams>) -> Result<CallToolResult, McpError> {
+    async fn send_video_note(
+        &self,
+        params: Parameters<SendVideoNoteParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendVideoNote", &params.0).await
     }
 
     #[tool(description = "Send paid media (photos/videos that require Stars to view)")]
-    async fn send_paid_media(&self, params: Parameters<SendPaidMediaParams>) -> Result<CallToolResult, McpError> {
+    async fn send_paid_media(
+        &self,
+        params: Parameters<SendPaidMediaParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendPaidMedia", &params.0).await
     }
 
     #[tool(description = "Send a group of photos/videos as an album (2-10 items)")]
-    async fn send_media_group(&self, params: Parameters<SendMediaGroupParams>) -> Result<CallToolResult, McpError> {
+    async fn send_media_group(
+        &self,
+        params: Parameters<SendMediaGroupParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendMediaGroup", &params.0).await
     }
 
     #[tool(description = "Send a location point on the map")]
-    async fn send_location(&self, params: Parameters<SendLocationParams>) -> Result<CallToolResult, McpError> {
+    async fn send_location(
+        &self,
+        params: Parameters<SendLocationParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendLocation", &params.0).await
     }
 
     #[tool(description = "Send a venue (location with name and address)")]
-    async fn send_venue(&self, params: Parameters<SendVenueParams>) -> Result<CallToolResult, McpError> {
+    async fn send_venue(
+        &self,
+        params: Parameters<SendVenueParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendVenue", &params.0).await
     }
 
     #[tool(description = "Send a phone contact")]
-    async fn send_contact(&self, params: Parameters<SendContactParams>) -> Result<CallToolResult, McpError> {
+    async fn send_contact(
+        &self,
+        params: Parameters<SendContactParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendContact", &params.0).await
     }
 
     #[tool(description = "Send a native poll")]
-    async fn send_poll(&self, params: Parameters<SendPollParams>) -> Result<CallToolResult, McpError> {
+    async fn send_poll(
+        &self,
+        params: Parameters<SendPollParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendPoll", &params.0).await
     }
 
-    #[tool(description = "Send an animated emoji that shows a random value (dice, darts, basketball, etc.)")]
-    async fn send_dice(&self, params: Parameters<SendDiceParams>) -> Result<CallToolResult, McpError> {
+    #[tool(
+        description = "Send an animated emoji that shows a random value (dice, darts, basketball, etc.)"
+    )]
+    async fn send_dice(
+        &self,
+        params: Parameters<SendDiceParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendDice", &params.0).await
     }
 }

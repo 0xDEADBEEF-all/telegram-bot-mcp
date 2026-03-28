@@ -8,7 +8,10 @@ mod server;
 mod tools;
 
 #[derive(Parser)]
-#[command(name = "telegram-bot-mcp", about = "Telegram Bot API — MCP server & CLI")]
+#[command(
+    name = "telegram-bot-mcp",
+    about = "Telegram Bot API — MCP server & CLI"
+)]
 struct App {
     /// Bot token (overrides TELEGRAM_BOT_TOKEN env var)
     #[arg(short, long, global = true, env = "TELEGRAM_BOT_TOKEN")]
@@ -36,9 +39,9 @@ async fn main() -> anyhow::Result<()> {
     let app = App::parse();
 
     let resolve_token = || -> anyhow::Result<String> {
-        app.token
-            .clone()
-            .ok_or_else(|| anyhow::anyhow!("Bot token required: use --token or set TELEGRAM_BOT_TOKEN"))
+        app.token.clone().ok_or_else(|| {
+            anyhow::anyhow!("Bot token required: use --token or set TELEGRAM_BOT_TOKEN")
+        })
     };
 
     match app.command {
@@ -55,8 +58,7 @@ async fn main() -> anyhow::Result<()> {
 
             tracing_subscriber::fmt()
                 .with_env_filter(
-                    EnvFilter::from_default_env()
-                        .add_directive("telegram_bot_mcp=info".parse()?),
+                    EnvFilter::from_default_env().add_directive("telegram_bot_mcp=info".parse()?),
                 )
                 .with_writer(std::io::stderr)
                 .init();

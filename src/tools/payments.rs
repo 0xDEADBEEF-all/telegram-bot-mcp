@@ -167,37 +167,66 @@ pub struct EditUserStarSubscriptionParams {
 #[tool_router(router = tool_router_payments, vis = "pub")]
 impl TelegramBotServer {
     #[tool(description = "Send an invoice for payment")]
-    async fn send_invoice(&self, params: Parameters<SendInvoiceParams>) -> Result<CallToolResult, McpError> {
+    async fn send_invoice(
+        &self,
+        params: Parameters<SendInvoiceParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendInvoice", &params.0).await
     }
 
     #[tool(description = "Create a link for an invoice")]
-    async fn create_invoice_link(&self, params: Parameters<CreateInvoiceLinkParams>) -> Result<CallToolResult, McpError> {
+    async fn create_invoice_link(
+        &self,
+        params: Parameters<CreateInvoiceLinkParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("createInvoiceLink", &params.0).await
     }
 
     #[tool(description = "Answer a shipping query (if invoice needs shipping)")]
-    async fn answer_shipping_query(&self, params: Parameters<AnswerShippingQueryParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("answerShippingQuery", &params.0).await
+    async fn answer_shipping_query(
+        &self,
+        params: Parameters<AnswerShippingQueryParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("answerShippingQuery", &params.0)
+            .await
     }
 
     #[tool(description = "Answer a pre-checkout query (confirm or reject payment)")]
-    async fn answer_pre_checkout_query(&self, params: Parameters<AnswerPreCheckoutQueryParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("answerPreCheckoutQuery", &params.0).await
+    async fn answer_pre_checkout_query(
+        &self,
+        params: Parameters<AnswerPreCheckoutQueryParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("answerPreCheckoutQuery", &params.0)
+            .await
     }
 
     #[tool(description = "Get the bot's Telegram Star transactions")]
-    async fn get_star_transactions(&self, params: Parameters<GetStarTransactionsParams>) -> Result<CallToolResult, McpError> {
+    async fn get_star_transactions(
+        &self,
+        params: Parameters<GetStarTransactionsParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("getStarTransactions", &params.0).await
     }
 
     #[tool(description = "Refund a Telegram Star payment")]
-    async fn refund_star_payment(&self, params: Parameters<RefundStarPaymentParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("refundStarPayment", &params.0).await
+    async fn refund_star_payment(
+        &self,
+        params: Parameters<RefundStarPaymentParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("refundStarPayment", &params.0)
+            .await
     }
 
     #[tool(description = "Edit a user's Star subscription (cancel/resume)")]
-    async fn edit_user_star_subscription(&self, params: Parameters<EditUserStarSubscriptionParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("editUserStarSubscription", &params.0).await
+    async fn edit_user_star_subscription(
+        &self,
+        params: Parameters<EditUserStarSubscriptionParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("editUserStarSubscription", &params.0)
+            .await
     }
 }

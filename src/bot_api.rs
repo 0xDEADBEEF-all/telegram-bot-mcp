@@ -40,10 +40,8 @@ impl BotApiClient {
             .await
             .map_err(|e| format!("HTTP error: {e}"))?;
 
-        let body: TelegramResponse<T> = resp
-            .json()
-            .await
-            .map_err(|e| format!("Parse error: {e}"))?;
+        let body: TelegramResponse<T> =
+            resp.json().await.map_err(|e| format!("Parse error: {e}"))?;
 
         if body.ok {
             body.result.ok_or_else(|| "Empty result".to_string())
@@ -81,19 +79,12 @@ impl BotApiClient {
     }
 
     /// Call a Telegram Bot API method, return raw JSON result (for CLI mode).
-    pub async fn call_raw(
-        &self,
-        method: &str,
-        params: &impl Serialize,
-    ) -> Result<Value, String> {
+    pub async fn call_raw(&self, method: &str, params: &impl Serialize) -> Result<Value, String> {
         self.raw_call::<Value>(method, params).await
     }
 
     /// Call a Telegram Bot API method with no parameters.
-    pub async fn call_method_no_params(
-        &self,
-        method: &str,
-    ) -> Result<CallToolResult, McpError> {
+    pub async fn call_method_no_params(&self, method: &str) -> Result<CallToolResult, McpError> {
         self.call_method(method, &serde_json::json!({})).await
     }
 }

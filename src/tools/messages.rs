@@ -235,7 +235,9 @@ impl TelegramBotServer {
         &self,
         params: Parameters<SetMessageReactionParams>,
     ) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("setMessageReaction", &params.0).await
+        self.api
+            .call_method_bool("setMessageReaction", &params.0)
+            .await
     }
 
     #[tool(description = "Pin a message in a chat")]
@@ -251,7 +253,9 @@ impl TelegramBotServer {
         &self,
         params: Parameters<UnpinChatMessageParams>,
     ) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("unpinChatMessage", &params.0).await
+        self.api
+            .call_method_bool("unpinChatMessage", &params.0)
+            .await
     }
 
     #[tool(description = "Unpin all pinned messages in a chat")]
@@ -259,6 +263,8 @@ impl TelegramBotServer {
         &self,
         params: Parameters<UnpinAllChatMessagesParams>,
     ) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("unpinAllChatMessages", &params.0).await
+        self.api
+            .call_method_bool("unpinAllChatMessages", &params.0)
+            .await
     }
 }

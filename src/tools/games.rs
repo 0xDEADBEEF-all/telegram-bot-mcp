@@ -67,17 +67,26 @@ pub struct GetGameHighScoresParams {
 #[tool_router(router = tool_router_games, vis = "pub")]
 impl TelegramBotServer {
     #[tool(description = "Send a game")]
-    async fn send_game(&self, params: Parameters<SendGameParams>) -> Result<CallToolResult, McpError> {
+    async fn send_game(
+        &self,
+        params: Parameters<SendGameParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("sendGame", &params.0).await
     }
 
     #[tool(description = "Set the score of a user in a game")]
-    async fn set_game_score(&self, params: Parameters<SetGameScoreParams>) -> Result<CallToolResult, McpError> {
+    async fn set_game_score(
+        &self,
+        params: Parameters<SetGameScoreParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("setGameScore", &params.0).await
     }
 
     #[tool(description = "Get high score table for a game")]
-    async fn get_game_high_scores(&self, params: Parameters<GetGameHighScoresParams>) -> Result<CallToolResult, McpError> {
+    async fn get_game_high_scores(
+        &self,
+        params: Parameters<GetGameHighScoresParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("getGameHighScores", &params.0).await
     }
 }

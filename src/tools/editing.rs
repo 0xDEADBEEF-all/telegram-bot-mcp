@@ -189,7 +189,9 @@ impl TelegramBotServer {
         &self,
         params: Parameters<EditMessageLiveLocationParams>,
     ) -> Result<CallToolResult, McpError> {
-        self.api.call_method("editMessageLiveLocation", &params.0).await
+        self.api
+            .call_method("editMessageLiveLocation", &params.0)
+            .await
     }
 
     #[tool(description = "Stop updating a live location message")]
@@ -197,7 +199,9 @@ impl TelegramBotServer {
         &self,
         params: Parameters<StopMessageLiveLocationParams>,
     ) -> Result<CallToolResult, McpError> {
-        self.api.call_method("stopMessageLiveLocation", &params.0).await
+        self.api
+            .call_method("stopMessageLiveLocation", &params.0)
+            .await
     }
 
     #[tool(description = "Edit the reply markup of a message")]
@@ -205,7 +209,9 @@ impl TelegramBotServer {
         &self,
         params: Parameters<EditMessageReplyMarkupParams>,
     ) -> Result<CallToolResult, McpError> {
-        self.api.call_method("editMessageReplyMarkup", &params.0).await
+        self.api
+            .call_method("editMessageReplyMarkup", &params.0)
+            .await
     }
 
     #[tool(description = "Stop a poll sent by the bot")]

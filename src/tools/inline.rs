@@ -75,22 +75,40 @@ pub struct SavePreparedInlineMessageParams {
 #[tool_router(router = tool_router_inline, vis = "pub")]
 impl TelegramBotServer {
     #[tool(description = "Answer a callback query from an inline keyboard button")]
-    async fn answer_callback_query(&self, params: Parameters<AnswerCallbackQueryParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("answerCallbackQuery", &params.0).await
+    async fn answer_callback_query(
+        &self,
+        params: Parameters<AnswerCallbackQueryParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("answerCallbackQuery", &params.0)
+            .await
     }
 
     #[tool(description = "Answer an inline query with results")]
-    async fn answer_inline_query(&self, params: Parameters<AnswerInlineQueryParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("answerInlineQuery", &params.0).await
+    async fn answer_inline_query(
+        &self,
+        params: Parameters<AnswerInlineQueryParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("answerInlineQuery", &params.0)
+            .await
     }
 
     #[tool(description = "Answer a Web App query")]
-    async fn answer_web_app_query(&self, params: Parameters<AnswerWebAppQueryParams>) -> Result<CallToolResult, McpError> {
+    async fn answer_web_app_query(
+        &self,
+        params: Parameters<AnswerWebAppQueryParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("answerWebAppQuery", &params.0).await
     }
 
     #[tool(description = "Save a prepared inline message for a user to send")]
-    async fn save_prepared_inline_message(&self, params: Parameters<SavePreparedInlineMessageParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method("savePreparedInlineMessage", &params.0).await
+    async fn save_prepared_inline_message(
+        &self,
+        params: Parameters<SavePreparedInlineMessageParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method("savePreparedInlineMessage", &params.0)
+            .await
     }
 }

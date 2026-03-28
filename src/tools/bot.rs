@@ -129,7 +129,9 @@ impl TelegramBotServer {
         &self,
         params: Parameters<ScopeParams>,
     ) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("deleteMyCommands", &params.0).await
+        self.api
+            .call_method_bool("deleteMyCommands", &params.0)
+            .await
     }
 
     #[tool(description = "Get the bot's command list")]
@@ -161,7 +163,9 @@ impl TelegramBotServer {
         &self,
         params: Parameters<SetMyDescriptionParams>,
     ) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("setMyDescription", &params.0).await
+        self.api
+            .call_method_bool("setMyDescription", &params.0)
+            .await
     }
 
     #[tool(description = "Get the bot's description")]
@@ -177,7 +181,9 @@ impl TelegramBotServer {
         &self,
         params: Parameters<SetMyShortDescriptionParams>,
     ) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("setMyShortDescription", &params.0).await
+        self.api
+            .call_method_bool("setMyShortDescription", &params.0)
+            .await
     }
 
     #[tool(description = "Get the bot's short description")]
@@ -185,7 +191,9 @@ impl TelegramBotServer {
         &self,
         params: Parameters<LanguageCodeParams>,
     ) -> Result<CallToolResult, McpError> {
-        self.api.call_method("getMyShortDescription", &params.0).await
+        self.api
+            .call_method("getMyShortDescription", &params.0)
+            .await
     }
 
     #[tool(description = "Set the bot's menu button in a private chat")]
@@ -193,7 +201,9 @@ impl TelegramBotServer {
         &self,
         params: Parameters<SetChatMenuButtonParams>,
     ) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("setChatMenuButton", &params.0).await
+        self.api
+            .call_method_bool("setChatMenuButton", &params.0)
+            .await
     }
 
     #[tool(description = "Get the bot's menu button in a private chat")]
@@ -209,7 +219,9 @@ impl TelegramBotServer {
         &self,
         params: Parameters<SetMyDefaultAdminRightsParams>,
     ) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("setMyDefaultAdministratorRights", &params.0).await
+        self.api
+            .call_method_bool("setMyDefaultAdministratorRights", &params.0)
+            .await
     }
 
     #[tool(description = "Get default administrator rights of the bot")]
@@ -217,6 +229,8 @@ impl TelegramBotServer {
         &self,
         params: Parameters<GetMyDefaultAdminRightsParams>,
     ) -> Result<CallToolResult, McpError> {
-        self.api.call_method("getMyDefaultAdministratorRights", &params.0).await
+        self.api
+            .call_method("getMyDefaultAdministratorRights", &params.0)
+            .await
     }
 }

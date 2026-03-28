@@ -60,66 +60,124 @@ pub struct EditGeneralForumTopicParams {
 impl TelegramBotServer {
     #[tool(description = "Get custom emoji stickers for forum topic icons")]
     async fn get_forum_topic_icon_stickers(&self) -> Result<CallToolResult, McpError> {
-        self.api.call_method_no_params("getForumTopicIconStickers").await
+        self.api
+            .call_method_no_params("getForumTopicIconStickers")
+            .await
     }
 
     #[tool(description = "Create a topic in a forum supergroup")]
-    async fn create_forum_topic(&self, params: Parameters<CreateForumTopicParams>) -> Result<CallToolResult, McpError> {
+    async fn create_forum_topic(
+        &self,
+        params: Parameters<CreateForumTopicParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method("createForumTopic", &params.0).await
     }
 
     #[tool(description = "Edit name and icon of a forum topic")]
-    async fn edit_forum_topic(&self, params: Parameters<EditForumTopicParams>) -> Result<CallToolResult, McpError> {
+    async fn edit_forum_topic(
+        &self,
+        params: Parameters<EditForumTopicParams>,
+    ) -> Result<CallToolResult, McpError> {
         self.api.call_method_bool("editForumTopic", &params.0).await
     }
 
     #[tool(description = "Close a forum topic")]
-    async fn close_forum_topic(&self, params: Parameters<ForumTopicParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("closeForumTopic", &params.0).await
+    async fn close_forum_topic(
+        &self,
+        params: Parameters<ForumTopicParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("closeForumTopic", &params.0)
+            .await
     }
 
     #[tool(description = "Reopen a closed forum topic")]
-    async fn reopen_forum_topic(&self, params: Parameters<ForumTopicParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("reopenForumTopic", &params.0).await
+    async fn reopen_forum_topic(
+        &self,
+        params: Parameters<ForumTopicParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("reopenForumTopic", &params.0)
+            .await
     }
 
     #[tool(description = "Delete a forum topic and all its messages")]
-    async fn delete_forum_topic(&self, params: Parameters<ForumTopicParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("deleteForumTopic", &params.0).await
+    async fn delete_forum_topic(
+        &self,
+        params: Parameters<ForumTopicParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("deleteForumTopic", &params.0)
+            .await
     }
 
     #[tool(description = "Clear the list of pinned messages in a forum topic")]
-    async fn unpin_all_forum_topic_messages(&self, params: Parameters<ForumTopicParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("unpinAllForumTopicMessages", &params.0).await
+    async fn unpin_all_forum_topic_messages(
+        &self,
+        params: Parameters<ForumTopicParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("unpinAllForumTopicMessages", &params.0)
+            .await
     }
 
     #[tool(description = "Edit the name of the 'General' forum topic")]
-    async fn edit_general_forum_topic(&self, params: Parameters<EditGeneralForumTopicParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("editGeneralForumTopic", &params.0).await
+    async fn edit_general_forum_topic(
+        &self,
+        params: Parameters<EditGeneralForumTopicParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("editGeneralForumTopic", &params.0)
+            .await
     }
 
     #[tool(description = "Close the 'General' forum topic")]
-    async fn close_general_forum_topic(&self, params: Parameters<ChatIdParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("closeGeneralForumTopic", &params.0).await
+    async fn close_general_forum_topic(
+        &self,
+        params: Parameters<ChatIdParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("closeGeneralForumTopic", &params.0)
+            .await
     }
 
     #[tool(description = "Reopen the 'General' forum topic")]
-    async fn reopen_general_forum_topic(&self, params: Parameters<ChatIdParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("reopenGeneralForumTopic", &params.0).await
+    async fn reopen_general_forum_topic(
+        &self,
+        params: Parameters<ChatIdParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("reopenGeneralForumTopic", &params.0)
+            .await
     }
 
     #[tool(description = "Hide the 'General' forum topic")]
-    async fn hide_general_forum_topic(&self, params: Parameters<ChatIdParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("hideGeneralForumTopic", &params.0).await
+    async fn hide_general_forum_topic(
+        &self,
+        params: Parameters<ChatIdParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("hideGeneralForumTopic", &params.0)
+            .await
     }
 
     #[tool(description = "Unhide the 'General' forum topic")]
-    async fn unhide_general_forum_topic(&self, params: Parameters<ChatIdParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("unhideGeneralForumTopic", &params.0).await
+    async fn unhide_general_forum_topic(
+        &self,
+        params: Parameters<ChatIdParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("unhideGeneralForumTopic", &params.0)
+            .await
     }
 
     #[tool(description = "Clear pinned messages in the 'General' forum topic")]
-    async fn unpin_all_general_forum_topic_messages(&self, params: Parameters<ChatIdParams>) -> Result<CallToolResult, McpError> {
-        self.api.call_method_bool("unpinAllGeneralForumTopicMessages", &params.0).await
+    async fn unpin_all_general_forum_topic_messages(
+        &self,
+        params: Parameters<ChatIdParams>,
+    ) -> Result<CallToolResult, McpError> {
+        self.api
+            .call_method_bool("unpinAllGeneralForumTopicMessages", &params.0)
+            .await
     }
 }
